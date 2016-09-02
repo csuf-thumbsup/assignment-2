@@ -21,3 +21,6 @@ Final Value: 250
 Continue (y/n)?
 ```
 
+##Source.cpp works however it uses (vectors & sstream) in addition to everything else used in the original source from Assignment #1.
+
+##Main.cpp has a bug but it doesn't need additional libraries like Source.cpp
