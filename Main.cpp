@@ -26,9 +26,9 @@ int eval_operation(char operation, int operand1, int operand2)
 	}
 }
 
-bool is_number(const std::string& s)
+bool is_number(const string& s)
 {
-	std::string::const_iterator it = s.begin();
+	string::const_iterator it = s.begin();
 	while (it != s.end() && isdigit(*it)) ++it;
 	return !s.empty() && it == s.end();
 }
@@ -72,9 +72,7 @@ void process_expression(string expression)
 					int_value = char_value - '0'; // quick way to convert from char to int			
 					stack.push(int_value); // push int_value to the stack 
 					dict.emplace(word, int_value); // store into our dict for future use
-
 				}
-
 				else // current element is in our dict
 				{
 					int int_value = dict.find(word)->second; // find our match in the dict
