@@ -26,12 +26,18 @@ int eval_operation(char operation, int operand1, int operand2)
 	}
 }
 
+bool is_number(const std::string& s)
+{
+	std::string::const_iterator it = s.begin();
+	while (it != s.end() && isdigit(*it)) ++it;
+	return !s.empty() && it == s.end();
+}
+
 void process_expression(string expression)
 {
 	unordered_map<string, int> dict;
 	stack<int> stack;
-	string word = "";
-	bool digitfound = false;
+	string word;
 
 	for (int i = 0; i < expression.length(); i++)
 	{
@@ -43,38 +49,41 @@ void process_expression(string expression)
 
 			// push computed value back onto stack
 			stack.push(eval_operation(expression[i], operand1, operand2));
-
+			i++; // since there will always be a space proceeding an operation we need to skip that space
 		}
 		else if (isspace(expression[i]))
 		{
-
-			// check if the first letter of word is a valid digit
-			if (word[0] - '0' >= 0 && word[0] - '0' <= 9)
+			// check if the word is a valid digit
+			if (is_number(word))
 			{
-				cout << "Its a digit! " << word << endl;
 				int x = stoi(word);
 				stack.push(x);
-			}
+				word.clear(); // clear out word 
+			} 
 			// check if current element is NOT in our dict
-			else if (dict.count(word) == 0)
-			{	
-				cout << "Loop #: " << i << endl;
-				char char_value;
-				int int_value;
-				// Prompt user for the value of "expression[i]"
-				cout << "\nEnter the value of " << word << ": ";
-				cin >> char_value;
-				int_value = char_value - '0'; // quick way to convert from char to int			
-				stack.push(int_value); // push int_value to the stack 
-				dict.emplace(word, int_value); // store into our dict for future use
-				
+			else {
+				if (dict.count(word) == 0)
+				{
+					char char_value;
+					int int_value;
+					// Prompt user for the value of "word"
+					cout << "\nEnter the value of " << word << ": ";
+					cin >> char_value;
+					int_value = char_value - '0'; // quick way to convert from char to int			
+					stack.push(int_value); // push int_value to the stack 
+					dict.emplace(word, int_value); // store into our dict for future use
+
+				}
+
+				else // current element is in our dict
+				{
+					int int_value = dict.find(word)->second; // find our match in the dict
+					stack.push(int_value); // push int_value to the stack 
+				}
+
+				word.clear(); // clear out word 
 			}
-			else // current element is in our dict
-			{
-				int int_value = dict.find(word)->second; // find our match in the dict
-				stack.push(int_value); // push int_value to the stack 
-			}
-			word.clear(); // clear out word 
+			
 		}
 		// base case - there should only be one value left in the stack which is the final value
 		else if (expression[i] == '$' && !stack.empty())
@@ -113,7 +122,6 @@ int main() {
 		getline(cin, postfix_expression);
 		process_expression(postfix_expression);
 		repeat_prompt();
-		cin.ignore(1000, '\n');
+		cin.ignore(1, '\n');
 	}
-
 }
