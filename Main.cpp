@@ -81,7 +81,6 @@ void process_expression(string expression)
 
 				word.clear(); // clear out word 
 			}
-			
 		}
 		// base case - there should only be one value left in the stack which is the final value
 		else if (expression[i] == '$' && !stack.empty())
@@ -93,7 +92,6 @@ void process_expression(string expression)
 			word += expression[i];
 		}
 	}
-
 }
 
 void repeat_prompt()
