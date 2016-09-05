@@ -56,12 +56,11 @@ void process_expression(string expression)
 			// check if the word is a valid digit
 			if (is_number(word))
 			{
-				int x = stoi(word);
-				stack.push(x);
-				word.clear(); // clear out word 
+				stack.push(stoi(word)); // push the digit onto stack
 			} 
-			// check if current element is NOT in our dict
+			// word is a variable to store into
 			else {
+				// check if current element is NOT in our dict
 				if (dict.count(word) == 0)
 				{
 					char char_value;
@@ -78,16 +77,15 @@ void process_expression(string expression)
 					int int_value = dict.find(word)->second; // find our match in the dict
 					stack.push(int_value); // push int_value to the stack 
 				}
-
-				word.clear(); // clear out word 
 			}
+			word.clear(); // clear out word for next use case
 		}
 		// base case - there should only be one value left in the stack which is the final value
 		else if (expression[i] == '$' && !stack.empty())
 		{
 			cout << "Final Value: " << stack.top() << endl;
 		}
-		else // found to be a char[a-z]
+		else // add 'char' to word regardless if [a-z]||[0-9]
 		{
 			word += expression[i];
 		}
@@ -107,6 +105,7 @@ void repeat_prompt()
 		cout << "Incorrect input. Try again." << endl;
 		repeat_prompt();
 	}
+	// its implicit that if user_input == 'y' we do nothing & continue on in the main loop
 }
 
 int main() {
