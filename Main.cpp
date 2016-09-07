@@ -33,6 +33,16 @@ bool is_number(const string &s)
 	return true;
 }
 
+bool is_operation(char operation, char peek_char)
+{
+	if (operation == '+' || operation == '-' || operation == '*' || operation == '/')
+	{
+		if (peek_char == ' ')
+			return true;
+	}
+	return false;
+}
+
 void process_expression(string expression)
 {
 	unordered_map<string, int> dict;
@@ -42,7 +52,7 @@ void process_expression(string expression)
 	for (int i = 0; i < expression.length(); i++)
 	{
 		// check for operations
-		if (expression[i] == '+' || expression[i] == '-' || expression[i] == '*' || expression[i] == '/')
+		if (is_operation(expression[i], expression[i+1]))
 		{
 			int operand1 = stack.top(); stack.pop();
 			int operand2 = stack.top(); stack.pop();
@@ -58,6 +68,11 @@ void process_expression(string expression)
 			{
 				stack.push(stoi(word)); // push the digit onto stack
 			} 
+			// check for negative numbers
+			else if (word.substr(0, 1) == "-" && is_number(word.substr(1)))
+			{
+				stack.push(stoi(word));
+			}
 			// word is a variable to store into
 			else {
 				// check if current element is NOT in our dict
