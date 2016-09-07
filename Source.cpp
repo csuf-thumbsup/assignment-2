@@ -39,6 +39,13 @@ vector<string> split(const string &s, char delim) {
 	return elems;
 }
 
+bool is_number(const string &s)
+{
+	for (string::const_iterator x = s.begin(); x != s.end(); x++)
+		if (!isdigit(*x)) return false;
+	return true;
+}
+
 void process_expression(vector<string> expression)
 {
 	unordered_map<string, int> dict;
@@ -54,10 +61,14 @@ void process_expression(vector<string> expression)
 
 			// push computed value back onto stack
 			stack.push(eval_operation(expression.at(i), operand1, operand2));
-
 		}
 		// found to be a number
-		else if (expression.at(i) >= "0" && expression.at(i) <= "9")
+		else if (is_number(expression.at(i)))
+		{
+			stack.push(stoi(expression.at(i)));
+		}
+		// check for negative numbers
+		else if (expression.at(i).substr(0,1) == "-" && is_number(expression.at(i).substr(1)))
 		{
 			stack.push(stoi(expression.at(i)));
 		}
