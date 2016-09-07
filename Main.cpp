@@ -26,11 +26,11 @@ int eval_operation(char operation, int operand1, int operand2)
 	}
 }
 
-bool is_number(const string& s)
+bool is_number(const string &s)
 {
-	string::const_iterator it = s.begin();
-	while (it != s.end() && isdigit(*it)) ++it;
-	return !s.empty() && it == s.end();
+	for (string::const_iterator x = s.begin(); x != s.end(); x++)
+		if (!isdigit(*x)) return false;
+	return true;
 }
 
 void process_expression(string expression)
@@ -83,9 +83,9 @@ void process_expression(string expression)
 		// base case - there should only be one value left in the stack which is the final value
 		else if (expression[i] == '$' && !stack.empty())
 		{
-			cout << "Final Value: " << stack.top() << endl;
+			cout << "Result is: " << stack.top() << endl;
 		}
-		else // add 'char' to word regardless if [a-z]||[0-9]
+		else
 		{
 			word += expression[i];
 		}
