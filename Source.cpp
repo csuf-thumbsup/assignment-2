@@ -119,7 +119,6 @@ void repeat_prompt()
 
 
 int main() {
-	cout << "Version with VECTOR" << endl;
 	while (true)
 	{
 		string postfix_expression;
@@ -127,6 +126,6 @@ int main() {
 		getline(cin, postfix_expression);
 		process_expression(split(postfix_expression, ' '));
 		repeat_prompt();
-		cin.ignore(1000, '\n');
+		cin.ignore(1, '\n');
 	}
 }

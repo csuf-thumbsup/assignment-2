@@ -124,7 +124,6 @@ void repeat_prompt()
 }
 
 int main() {
-	cout << "ORIG VER MODIFIED" << endl;
 	while (true)
 	{
 		string postfix_expression;
